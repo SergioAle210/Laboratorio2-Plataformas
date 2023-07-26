@@ -11,6 +11,7 @@ fun main(args: Array<String>) {
         //PerfilUsuario(5, "Adrian", "Pascual", null, 19, "adrian@gmail.com", null, "Jugando")
     )
     var id = PerfilesUsuarios.size
+    var recorrido = 1
     var continuar = true
     while (continuar){
         println("Seleccione alguna de las siguientes opciones: \n1. Crear Perfil \n2. Buscar perfil de usuario(s) \n3. Eliminar perfil \n4. Agregar Hobby \n5. Salir")
@@ -20,6 +21,7 @@ fun main(args: Array<String>) {
             //Crear perfil
             1 -> {
                 try {
+                    //Se le piden todos los datos al usuario
                     println("Ingrese la información del perfil:")
                     print("Nombres: ")
                     val nombres = readln()
@@ -43,9 +45,12 @@ fun main(args: Array<String>) {
                     } while (estado !in listOf("activo", "pendiente", "inactivo"))
                     println(id)
                     id++
+                    //Se crea el nuevo perfil
                     val nuevoPerfil = PerfilUsuario(id, nombres, apellidos, urlPhoto, edad, correo, biografía, estado)
                     PerfilesUsuarios.add(nuevoPerfil)
                     println("Perfil creado exitosamente.")
+
+                //En caso de que el usuario ingrese un caracter donde esperaba un numero
                 } catch (e: NumberFormatException){
                     println("Error al crear el perfil, has ingresado un caracter y se esperaba un numero entero: ${e.message}")
                 } catch (e: Exception) {
@@ -54,20 +59,24 @@ fun main(args: Array<String>) {
 
 
             }
+
             //Buscar perfil
             2 -> {
                 try {
+                    //Sirve para hacer la busqueda
                     print("Ingrese el ID o nombres y/o apellidos a buscar: ")
-                    val search = readlnOrNull()?.trim() ?: throw IllegalArgumentException("Búsqueda inválida")
+                    val search = readlnOrNull()?.trim().toString()
 
                     // Filtrar perfiles según el ID o nombres y/o apellidos
                     val resultados = PerfilesUsuarios.filter {
                         it.ID.toString() == search || it.Nombres.contains(search, ignoreCase = true) || it.Apellidos.contains(search, ignoreCase = true)
                     }
 
+                    // En caso de que la lista mutable filtrada entrará a este if
                     if (resultados.isEmpty()) {
                         println("No se encontraron perfiles con la información ingresada.")
                     } else {
+                        //De caso contrario al encontrar algun perfil con ese nombre, apellido o ID recorrerá cada uno de los datos en
                         for (perfil in resultados) {
                             println("ID: ${perfil.ID}")
                             println("Nombres: ${perfil.Nombres}")
@@ -80,9 +89,11 @@ fun main(args: Array<String>) {
                             if (perfil.Hobbies.isNotEmpty()) {
                                 println("Hobbies:")
                                 for (hobby in perfil.Hobbies) {
+                                    println("  Hobby $recorrido \n")
                                     println("  Título: ${hobby.Titulo}")
                                     println("  Descripción: ${hobby.Descripcion}")
                                     println("  Url de foto: ${hobby.UrlPhoto ?: "Nulo"}")
+                                    recorrido++
                                 }
                             }
                             println()
@@ -96,10 +107,12 @@ fun main(args: Array<String>) {
                 try {
                     print("Ingrese el ID del perfil a eliminar: ")
                     val id_Eliminar = readln().toIntOrNull()
+                    //Aqui sirve para buscar el perfil que el usuario selecciono en la lista mutable
                     val EliminarPerfil = PerfilesUsuarios.find { it.ID == id_Eliminar }
                     if (EliminarPerfil != null) {
                         PerfilesUsuarios.remove(EliminarPerfil)
                         println("Perfil con ID $id_Eliminar eliminado exitosamente.")
+                    //En caso de no estar se indica que no se encontro el ID que el identifico
                     } else {
                         println("No se encontró un perfil con el ID $id_Eliminar.")
                     }
@@ -111,6 +124,7 @@ fun main(args: Array<String>) {
                 try {
                     print("Ingrese el ID o nombres y/o apellidos del perfil para agregar un Hobby: ")
                     val query = readlnOrNull()?.trim().toString()
+                    //Hago una busqueda de la lista mutable ya sea por el ID, nombre o Apellido
                     val perfilEncontrado = PerfilesUsuarios.find {
                         it.ID.toString() == query || it.Nombres.contains(query, ignoreCase = true) || it.Apellidos.contains(query, ignoreCase = true)
                     }
