@@ -8,7 +8,8 @@ class PerfilUsuario(
     val Edad: Int,
     val Correo: String,
     val Biografia: String?,
-    estado: String
+    estado: String,
+    val Hobbies: MutableList<Hobby> = mutableListOf<Hobby>()
 ){
 
     // Validaciones que tiene que cumplir la variable estado
@@ -26,9 +27,6 @@ class PerfilUsuario(
         this.estado = estado
     }
 
-
-    //La lista de hobbies
-    val Hobbies = mutableListOf<Hobby>()
 
     //Sirve para agregar un hobby
     fun AgregarHobby(hobby: Hobby){

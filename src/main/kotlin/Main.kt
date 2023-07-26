@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
         //PerfilUsuario(5, "Adrian", "Pascual", null, 19, "adrian@gmail.com", null, "Jugando")
     )
     var id = PerfilesUsuarios.size
-
+    var validacion = false
     var continuar = true
     while (continuar){
         println("Seleccione alguna de las siguientes opciones: \n1. Crear Perfil \n2. Buscar perfil de usuario(s) \n3. Eliminar perfil \n4. Agregar Hobby \n5. Salir")
@@ -42,8 +42,15 @@ fun main(args: Array<String>) {
                     do {
                         print("Estado (Activo, Pendiente o Inactivo): ")
                         estado = readlnOrNull()?.trim()?.lowercase().toString()
-                    } while (estado !in listOf("activo", "pendiente", "inactivo"))
-                    println(id)
+                        if(estado in listOf("activo", "pendiente", "inactivo"))
+                        {
+                            validacion = true
+                        }
+                        else{
+                            println("Te has equivocado intenta nuevamente.")
+                        }
+                    } while (!validacion)
+                    //Se incrementa el ID
                     id++
                     //Se crea el nuevo perfil
                     val nuevoPerfil = PerfilUsuario(id, nombres, apellidos, urlPhoto, edad, correo, biografía, estado)
@@ -104,6 +111,7 @@ fun main(args: Array<String>) {
                     println("Error al buscar el perfil: ${e.message}")
                 }
             }
+            //Sirve para eliminar un perfil
             3 -> {
                 try {
                     print("Ingrese el ID del perfil a eliminar: ")
@@ -121,6 +129,7 @@ fun main(args: Array<String>) {
                     println("Error al eliminar el perfil: ${e.message}")
                 }
             }
+            //Sirve para agregar hobbies a un perfil en especifico
             4 -> {
                 try {
                     print("Ingrese el ID o nombres y/o apellidos del perfil para agregar un Hobby: ")
@@ -129,6 +138,7 @@ fun main(args: Array<String>) {
                     val perfilEncontrado = PerfilesUsuarios.find {
                         it.ID.toString() == query || it.Nombres.contains(query, ignoreCase = true) || it.Apellidos.contains(query, ignoreCase = true)
                     }
+                    // Al encontrarse el perfil se le pide lo necesario para crear un Hobby
                     if (perfilEncontrado != null) {
                         println("Perfil encontrado: ${perfilEncontrado.Nombres} ${perfilEncontrado.Apellidos}. Ingrese la información del hobby:")
                         print("Título: ")
@@ -147,10 +157,12 @@ fun main(args: Array<String>) {
                     println("Error al agregar el Hobby: ${e.message}")
                 }
             }
+            //Salir
             5 ->{
                 continuar = false
                 println("Gracias por utilizar mi programa, hasta luego")
             }
+            //En caso de queingrese un valor inesperado
             else -> println("Opción inválida, por favor ingrese un número válido.")
         }
     }
