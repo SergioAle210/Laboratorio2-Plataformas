@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
         //PerfilUsuario(5, "Adrian", "Pascual", null, 19, "adrian@gmail.com", null, "Jugando")
     )
     var id = PerfilesUsuarios.size
-    var recorrido = 1
+
     var continuar = true
     while (continuar){
         println("Seleccione alguna de las siguientes opciones: \n1. Crear Perfil \n2. Buscar perfil de usuario(s) \n3. Eliminar perfil \n4. Agregar Hobby \n5. Salir")
@@ -86,13 +86,14 @@ fun main(args: Array<String>) {
                             println("Correo: ${perfil.Correo}")
                             println("Biografía: ${perfil.Biografia ?: "Nulo"}")
                             println("Estado: ${perfil.estado}")
+                            var recorrido = 1
                             if (perfil.Hobbies.isNotEmpty()) {
                                 println("Hobbies:")
                                 for (hobby in perfil.Hobbies) {
-                                    println("  Hobby $recorrido \n")
+                                    println("  Hobby $recorrido")
                                     println("  Título: ${hobby.Titulo}")
                                     println("  Descripción: ${hobby.Descripcion}")
-                                    println("  Url de foto: ${hobby.UrlPhoto ?: "Nulo"}")
+                                    println("  Url de foto: ${hobby.UrlPhoto ?: "Nulo"} \n")
                                     recorrido++
                                 }
                             }
