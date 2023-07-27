@@ -83,7 +83,7 @@ fun main(args: Array<String>) {
                     if (resultados.isEmpty()) {
                         println("No se encontraron perfiles con la información ingresada.")
                     } else {
-                        //De caso contrario al encontrar algun perfil con ese nombre, apellido o ID recorrerá cada uno de los datos en
+                        //De caso contrario al encontrar algun perfil o perfiles con ese nombre, apellido o ID recorrerá cada uno de los datos en
                         for (perfil in resultados) {
                             println("ID: ${perfil.ID}")
                             println("Nombres: ${perfil.Nombres}")
@@ -119,6 +119,7 @@ fun main(args: Array<String>) {
                     //Aqui sirve para buscar el perfil que el usuario selecciono en la lista mutable
                     val EliminarPerfil = PerfilesUsuarios.find { it.ID == id_Eliminar }
                     if (EliminarPerfil != null) {
+                        //Elimina el perfil
                         PerfilesUsuarios.remove(EliminarPerfil)
                         println("Perfil con ID $id_Eliminar eliminado exitosamente.")
                     //En caso de no estar se indica que no se encontro el ID que el identifico
@@ -135,6 +136,7 @@ fun main(args: Array<String>) {
                     print("Ingrese el ID o nombres y/o apellidos del perfil para agregar un Hobby: ")
                     val query = readlnOrNull()?.trim().toString()
                     //Hago una busqueda de la lista mutable ya sea por el ID, nombre o Apellido
+                    //Cabe resaltar que cuando hay dos perfiles con el mismo nombre o apellido, el PerfilEncontrado será el que aparezca de primero en la lista
                     val perfilEncontrado = PerfilesUsuarios.find {
                         it.ID.toString() == query || it.Nombres.contains(query, ignoreCase = true) || it.Apellidos.contains(query, ignoreCase = true)
                     }
